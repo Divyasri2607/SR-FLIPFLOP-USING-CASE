@@ -34,53 +34,45 @@ The maximum possible groupings of adjacent ones are already shown in the figure.
 
 **Procedure**
 
-Type the program in Quartus software.
-
-Compile and run the program.
-
-Generate the RTL schematic and save the logic diagram.
-
-Create nodes for inputs and outputs to generate the timing diagram.
-
-For different input combinations generate the timing diagram.
+1. Type the program in Quartus software.
+2. Compile and run the program.
+3. Generate the RTL schematic and save the logic diagram.
+4. Create nodes for inputs and outputs to generate the timing diagram.
+5. For different input combinations generate the timing diagram.
 
 **PROGRAM**
 ```
-module sr_ff (s, r, clk, rst, q);
-  input s, r, clk, rst;
-  output reg q;
-
-  always @(posedge clk or posedge rst)
- begin
-    if (rst)
-      q <= 0; // Reset the flip-flop
-    else
- begin
-      case ({s, r}) // S and R control the behavior
-        2'b00: q <= q;    // No change
-        2'b01: q <= 0;    // Reset
-        2'b10: q <= 1;    // Set
-        2'b11: q <= 0;    // Invalid state, typically treated as reset
-      endcase
-    end
-  end
+module sr_ff(s,r,clk,q,qbar);
+input s,r,clk;
+output reg q;
+output reg qbar;
+initial 
+begin
+q=0;
+qbar=1;
+end
+always @(posedge clk)
+begin
+   q=s|(~r&q);
+   qbar=r|(~s&~q);
+end
 endmodule
 ```
-```
-Developed By : Divya Sri V
- RegisterNumber:24901155
-```
+
+Developed by: Divya Sri V RegisterNumber: 24901155
+
+**RTL LOGIC FOR SR FLIPFLOP**
+
+![Screenshot 2025-01-06 214410](https://github.com/user-attachments/assets/b33bb02d-3a15-4b2f-8ab0-78edc54e33b1)
 
 
-**RTL LOGIC FOR FLIPFLOPS**
-![Screenshot 2024-12-29 171943](https://github.com/user-attachments/assets/507b9db3-573e-4aa4-81ed-46de4eac5e6a)
+**TIMING DIGRAM FOR SR FLIP FLOP**
+
+![Screenshot 2025-01-06 214431](https://github.com/user-attachments/assets/e96fbdd7-e992-4f6a-8c54-fb18720f8e58)
 
 
+**RESULT**
 
-**TIMING DIGRAMS FOR FLIP FLOPS**
-![Screenshot 2024-12-29 171953](https://github.com/user-attachments/assets/7d57a746-d123-44c7-9293-35f31a58d195)
+Thus implemented a SR flipflop using verilog and validated their functionality using their functional tables
 
-
-**RESULTS**
-succesfully implemented  SR flipflop using verilog and validating their functionality using their functional tables
 
